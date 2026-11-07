@@ -38,7 +38,7 @@ Issues = "https://github.com/tjorim/python-mygrid-modbus/issues"
 
 [dependency-groups]
 dev = [
-    "modbus-connection[tmodbus,pymodbus]==4.12.5",
+    "modbus-connection[tmodbus,pymodbus]==4.12.7",
     "tmodbus==1.1.0",
     "pytest==9.2.0",
     "pytest-asyncio==1.4.1.post1",
