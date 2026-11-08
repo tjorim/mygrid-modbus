@@ -1,0 +1,32 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>tjorim/renovate-config",
+    "github>tjorim/renovate-config:python-lib"
+  ],
+  "packageRules": [
+    {
+      "description": [
+        "modbus-connection, tmodbus and pymodbus move together"
+      ],
+      "matchDatasources": [
+        "pypi"
+      ],
+      "matchPackageNames": [
+        "modbus-connection",
+        "tmodbus",
+        "pymodbus"
+      ],
+      "groupName": "modbus"
+    },
+    {
+      "description": [
+        "Dependabot used versioning-strategy: increase here."
+      ],
+      "matchManagers": [
+        "pep621"
+      ],
+      "rangeStrategy": "bump"
+    }
+  ]
+}
