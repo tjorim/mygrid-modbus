@@ -29,7 +29,13 @@ def main() -> None:
         assert metadata["Requires-Python"] == ">=3.12"
         requirements = [Requirement(value) for value in metadata.get_all("Requires-Dist", [])]
         assert {requirement.name for requirement in requirements} == {"modbus-connection"}
-        assert {str(requirement.specifier) for requirement in requirements} == {"<5,>=4.12.4"}
+        declared_dependencies = [
+            *project["dependencies"],
+            *(dependency for dependencies in project["optional-dependencies"].values() for dependency in dependencies),
+        ]
+        assert {requirement.specifier for requirement in requirements} == {
+            Requirement(dependency).specifier for dependency in declared_dependencies
+        }
         assert sum(requirement.marker is None for requirement in requirements) == 1
         assert set(metadata.get_all("Provides-Extra", [])) == {"tmodbus", "pymodbus"}
         assert {extra for requirement in requirements for extra in requirement.extras} == {"tmodbus", "pymodbus"}
