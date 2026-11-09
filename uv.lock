@@ -541,9 +541,9 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "modbus-connection", specifier = ">=4.12.4,<5" },
-    { name = "modbus-connection", extras = ["pymodbus"], marker = "extra == 'pymodbus'", specifier = ">=4.12.4,<5" },
-    { name = "modbus-connection", extras = ["tmodbus"], marker = "extra == 'tmodbus'", specifier = ">=4.12.4,<5" },
+    { name = "modbus-connection", specifier = ">=4.12.7,<5" },
+    { name = "modbus-connection", extras = ["pymodbus"], marker = "extra == 'pymodbus'", specifier = ">=4.12.7,<5" },
+    { name = "modbus-connection", extras = ["tmodbus"], marker = "extra == 'tmodbus'", specifier = ">=4.12.7,<5" },
 ]
 provides-extras = ["pymodbus", "tmodbus"]
 
