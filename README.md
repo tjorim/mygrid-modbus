@@ -4,7 +4,21 @@ A standalone async Python device library for **MyGrid ModuleTwo** batteries, imp
 
 The library uses `modbus-connection` component models. Applications supply a `ModbusUnit`, choose the transport backend, and own the connection lifetime. No application framework is required. Install it from [PyPI](https://pypi.org/project/mygrid-modbus/); the source is on GitHub.
 
-[Documentation](https://tjorim.github.io/custom-mygrid/) covers the MyGrid integration and related projects. Library usage and protocol details are documented below and in [docs](docs/protocol.md).
+## Documentation
+
+Read the [Python library guide](https://tjorim.github.io/custom-mygrid/docs/moduletwo-python/)
+and [Home Assistant setup guide](https://tjorim.github.io/custom-mygrid/docs/moduletwo/)
+on the MyGrid documentation website.
+
+This README and the [protocol reference](docs/protocol.md) are authoritative for
+Python usage, device communication and protocol decoding. Device prerequisites
+and library validation belong here too. Edit the source in this repository;
+the website publishes reviewed, commit-pinned snapshots and may lag this branch.
+Home Assistant installation, entities, Energy dashboard configuration and
+automation examples belong in
+[`ha-mygrid-modbus`](https://github.com/tjorim/ha-mygrid-modbus).
+Link to those guides instead of maintaining another copy. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for documentation changes.
 
 ## Installation
 
