@@ -32,13 +32,20 @@ Install the base package without extras when the consuming application supplies 
 
 ## Query a battery
 
-The helper is read-only; it never sends power or restart commands:
+The helper is read-only; it never sends power or restart commands. After the
+pip installation above, run:
+
+```sh
+mygrid-query 192.168.1.20 --port 502
+mygrid-query 192.168.1.20 --port 502 --raw
+```
+
+From a checkout of this repository with uv installed:
 
 ```sh
 uv sync --frozen
 uv run script/query.py 192.168.1.20 --port 502
 uv run script/query.py 192.168.1.20 --port 502 --raw
-# The installed distribution also provides mygrid-query.
 ```
 
 `--raw` includes an address-keyed register dump, suitable for replay in tests with `mock_modbus_unit.load_raw(payload['registers'])`. The helper uses `modbus_connection.cli_helper` for connection arguments and backend selection. Only the documented TCP socket transport is offered. Unit ID is fixed to **1**.
@@ -87,7 +94,9 @@ asyncio.run(main())
 | `async_restart()` | One function-06 write of value 1 to register 9 |
 | `async_read_raw()` | Fresh raw words grouped by Modbus space, replayable by the mock |
 
-Power is in **W**, energy in **Wh**. Positive power charges; negative power discharges. A setpoint is a signed I16 value in 100 W increments and must fall within fresh device limits. A readback confirms acceptance, not actual power delivery.
+Power is in **W**, energy in **Wh**. Positive power charges; negative power discharges. A setpoint is a signed I16 value in 100 W increments and must fall within fresh device limits. `async_set_power(watts)` returns the readback snapshot; compare its
+`setpoint` with the requested watts because the device may clamp the request
+if limits change. A matching readback confirms acceptance, not actual power delivery.
 
 Status 0 means normal, 1 fault and 2 telemetry stale. The immutable snapshot suppresses SOC, measured power and faults when status is 2; other valid fields remain available. Raw dumps preserve exactly what the device returned. When a poll fails, inspect its report before treating cached component values or the last snapshot as current. An unsupported map or invalid SOC/status fails the component instead of publishing corrupt measurements.
 
@@ -99,7 +108,7 @@ Use `async_set_power()` for live-limit validation. Component field metadata desc
 
 ## Device prerequisites
 
-Link the battery to your MyGrid account and select **Home Assistant** as the control source in the manufacturer's app to enable Modbus TCP on port 502. On the replacement development battery, the owner reported that it started updating once linked to the account; enabling Home Assistant control again (normally used via MQTT) then made Modbus TCP available. Both read-only live tests passed on 2026-11-09 with register map 2. See the [validation record](docs/hardware-validation.md).
+Link the battery to your MyGrid account and select **Home Assistant** as the control source in the manufacturer's app, then check whether Modbus TCP on port 502 is available. On the replacement development battery, the owner reported that it started updating once linked to the account; enabling Home Assistant control again (normally used via MQTT) then made Modbus TCP available. Both read-only live tests passed on 2026-11-09 with register map 2. See the [validation record](docs/hardware-validation.md).
 
 The earlier connection refusal affected the previous, now-replaced battery. It no longer establishes that a separate IT activation is required. If port 502 remains closed after account linking and selecting Home Assistant control, contact MyGrid support with the battery's hostname and MAC address.
 
